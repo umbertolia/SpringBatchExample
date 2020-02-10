@@ -21,12 +21,10 @@ import org.springframework.core.io.Resource;
 
 import hdn.example.springbatchexemple.model.User;
 
-@Configuration
-@EnableBatchProcessing
 public class SpringBatchConfig {
 
 	@Bean
-	public Job job(
+	public Job csvReaderJob(
 			JobBuilderFactory jobBuilderFactory, 
 			StepBuilderFactory stepBuilderFactory,
 			ItemReader<User> itemReader, 

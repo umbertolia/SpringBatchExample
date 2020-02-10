@@ -14,23 +14,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/load")
+@RequestMapping("/batchUsers")
 public class LoadController {
 
     @Autowired
     JobLauncher jobLauncher;
 
     @Autowired
-    Job job;
+    Job csvReaderJob;
+    
+    @Autowired
+    Job exportPersonneJob;
 
-    @GetMapping
+    @GetMapping("/saveUsers")
     public BatchStatus load() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
 
 
         Map<String, JobParameter> maps = new HashMap<>();
         maps.put("time", new JobParameter(System.currentTimeMillis()));
         JobParameters parameters = new JobParameters(maps);
-        JobExecution jobExecution = jobLauncher.run(job, parameters);
+        JobExecution jobExecution = jobLauncher.run(csvReaderJob, parameters);
 
         System.out.println("JobExecution: " + jobExecution.getStatus());
 
@@ -38,7 +41,26 @@ public class LoadController {
         while (jobExecution.isRunning()) {
             System.out.println("...");
         }
-
         return jobExecution.getStatus();
     }
+    
+    @GetMapping("/getUsersToCsv")
+    public BatchStatus loadUsers() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
+
+
+        Map<String, JobParameter> maps = new HashMap<>();
+        maps.put("time", new JobParameter(System.currentTimeMillis()));
+        JobParameters parameters = new JobParameters(maps);
+        JobExecution jobExecution = jobLauncher.run(exportPersonneJob, parameters);
+
+        System.out.println("JobExecution: " + jobExecution.getStatus());
+
+        System.out.println("Batch getUsersToCsv is Running...");
+        while (jobExecution.isRunning()) {
+            System.out.println("...");
+        }
+        return jobExecution.getStatus();
+    }
+    
+    
 }
