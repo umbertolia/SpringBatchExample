@@ -21,6 +21,8 @@ import org.springframework.core.io.Resource;
 
 import hdn.example.springbatchexemple.model.User;
 
+@Configuration
+@EnableBatchProcessing
 public class SpringBatchConfig {
 
 	@Bean
