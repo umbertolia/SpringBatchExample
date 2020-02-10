@@ -57,30 +57,15 @@ public class SpringBatchtoCvsConfig {
 		return new PersonneItemProcessor();
 	}
 
-	/*@Bean
+	@Bean
 	public FlatFileItemWriter<Utilisateur> writer () {
 		FlatFileItemWriter<Utilisateur> writer = new FlatFileItemWriter<Utilisateur>();
 		
 		writer.setResource(new ClassPathResource("personnesDB.csv"));
 		writer.setLineAggregator(lineAggregator());
 		return writer;
-	}*/
+	}
 	
-	
-	 @Bean
-	 public FlatFileItemWriter<Utilisateur> writer(){
-	  FlatFileItemWriter<Utilisateur> writer = new FlatFileItemWriter<Utilisateur>();
-	  writer.setResource(new ClassPathResource("personnesDB.csv"));
-	  writer.setLineAggregator(new DelimitedLineAggregator<Utilisateur>() {{
-	   setDelimiter(",");
-	   setFieldExtractor(new BeanWrapperFieldExtractor<Utilisateur>() {{
-	    setNames(new String[] { "id", "firstName", "lastName", "civilite" });
-	   }});
-	  }});
-	  
-	  return writer;
-	 }
-
 	@Bean
 	public LineAggregator<Utilisateur> lineAggregator() {
 		DelimitedLineAggregator<Utilisateur> lineAggregator = new DelimitedLineAggregator<Utilisateur>();
